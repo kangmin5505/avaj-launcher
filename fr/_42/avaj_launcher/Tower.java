@@ -21,6 +21,6 @@ public class Tower {
         }
 
         protected void conditionChanged() {
-
+                observers.updateConditions();
         }
 }

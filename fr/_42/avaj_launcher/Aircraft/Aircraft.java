@@ -14,6 +14,16 @@ public class Aircraft extends Flyable {
         }
         
         public void updateConditions() {
-
+                String weather = p_tower.getCurrentWeather(p_coordinates);
+                switch (weather) {
+                        case RAIN:
+                                break;
+                        case FOG:
+                                break;
+                        case SUN:
+                                break;
+                        case SNOW:
+                                break;
+                }
         }
 }

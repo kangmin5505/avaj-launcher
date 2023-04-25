@@ -8,7 +8,7 @@ import fr._42.avaj_launcher.Aircraft.AircraftFactory;
 import fr._42.avaj_launcher.Aircraft.AircraftType;
 
 public class Simulator {
-        private static final WeatherTower weather = new WeatherTower();
+        private static final WeatherTower weatherTower = new WeatherTower();
         private int simulationTime;
         public static void main(String[] args) {
                 Simulator simulator = new Simulator();
@@ -18,11 +18,13 @@ public class Simulator {
                 }
 
                 simulator.registerAircraft(filename);
-                simulator.run(filename);
+                simulator.run();
         }
 
-        private void run(String p_filename) {
-
+        private void run() {
+                while (simulationTime--) {
+                        weatherTower.changeWeather();
+                }
         }
 
         private void registerAircraft(String p_filename) {
@@ -156,9 +158,14 @@ class FileValidator {
         private boolean isValidName(String p_name) {
                 return 0 < p_name.length() && p_name.length() <= 255;
         }
+        // coordinates are a few weired.
+        // because longitude range is from -180 to 180,
+        // latitude range is from -90 to 90.
+        // But, this subject says that coordinates are positive number.
         private boolean isValidCoordinate(int p_coord) {
                 return p_coord > 0;
         }
+        private boolean isValidLongitude
         private boolean isValidHeight(int p_height) {
                 return 0 <= p_height && p_height <= 100;
         }
