@@ -13,4 +13,5 @@
 ```
 find * -name "*.java" > sources.txt
 javac @sources.txt
+java fr._42.avaj_launcher.Simulator scenario.txt
 ```
