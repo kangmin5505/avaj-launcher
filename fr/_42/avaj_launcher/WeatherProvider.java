@@ -1,35 +1,44 @@
 package fr._42.avaj_launcher;
 
-import java.Math;
-
-
+import java.util.HashMap;
+import java.util.Random;
 
 public class WeatherProvider {
         public enum WeatherType {
-                RAIN("RAIN"),
-                FOG("FOG"),
-                SUN("SUN"),
-                SNOW("SNOW");
+                RAIN,
+                FOG,
+                SUN,
+                SNOW;
         };
 
-        private String[] weather = {WeatherType.RAIN, WeatherType.FOG, 
-                                        WeatherType.SUN, WeatherType.SNOW};
-        private static WeatherProvider weatherProvider = new WeatherProvider();
+        private static final HashMap<WeatherType, String> weather = new HashMap<>();
+        static {
+                weather.put(WeatherType.RAIN, "RAIN");
+                weather.put(WeatherType.FOG, "FOG");
+                weather.put(WeatherType.SUN, "SUN");
+                weather.put(WeatherType.SNOW, "SNOW");
+        };
 
-        private WeatherProvider() {}
+        private static final WeatherProvider weatherProvider = new WeatherProvider();
+
+        private WeatherProvider() {
+        }
 
         public static WeatherProvider getInstance() {
                 return weatherProvider;
         }
-        
+
         public String getCurrentWeather(Coordinates p_coordinates) {
                 int value;
                 try {
-                        value = Math.addExact(p_coordinates.longitude + p_coordinates.latitude);
-                        value += Math.addExact(value, p_coordinates.height);
+                        value = Math.addExact(p_coordinates.getLongitude(), p_coordinates.getLatitude());
+                        value += Math.addExact(value, p_coordinates.getHeight());
+                        Random rand = new Random();
+                        value += Math.addExact(value, rand.nextInt(4));
                 } catch (ArithmeticException e) {
                         value = 0;
                 }
-                return weather[value % weather.length];
+                WeatherType type = WeatherType.values()[value % weather.size()];
+                return weather.get(type);
         }
 }
