@@ -17,7 +17,7 @@ public class Tower {
 
         public void register(Flyable p_flyable) {
                 Aircraft aircraft = (Aircraft) p_flyable;
-                String format = "%s#%s(%d) registered to weather tower.";
+                String format = "{0}#{1}({2}) registered to weather tower.";
                 Object[] arguments = { aircraft.getType(), aircraft.getName(), aircraft.getID() };
                 String message = MessageFormat.format(format, arguments);
                 printMessage(message);
@@ -26,7 +26,7 @@ public class Tower {
 
         public void unregister(Flyable p_flyable) {
                 Aircraft aircraft = (Aircraft) p_flyable;
-                String format = "%s#%s(%d) unregistered from weather tower.";
+                String format = "{0}#{1}({2}) unregistered from weather tower.";
                 Object[] arguments = { aircraft.getType(), aircraft.getName(), aircraft.getID() };
                 String message = MessageFormat.format(format, arguments);
                 printMessage(message);

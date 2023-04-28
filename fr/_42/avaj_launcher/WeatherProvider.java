@@ -33,8 +33,7 @@ public class WeatherProvider {
                 try {
                         value = Math.addExact(p_coordinates.getLongitude(), p_coordinates.getLatitude());
                         value += Math.addExact(value, p_coordinates.getHeight());
-                        Random rand = new Random();
-                        value += Math.addExact(value, rand.nextInt(4));
+                        value += Math.addExact(value, new Random().nextInt(4));
                 } catch (ArithmeticException e) {
                         value = 0;
                 }

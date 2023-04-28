@@ -102,17 +102,19 @@ class FileValidator {
                                         System.err.println("Invalid line format: line " + lineNumber);
                                         validFlag = false;
                                 }
-                                String aircraftType = parts[0];
-                                String name = parts[1];
 
+                                String aircraftType = parts[0];
                                 if (isValidAircraftType(aircraftType) == false) {
                                         System.err.println("Invalid aircraft type: line " + lineNumber);
                                         validFlag = false;
                                 }
+
+                                String name = parts[1];
                                 if (isValidName(name) == false) {
                                         System.err.println("Invalid name: line " + lineNumber);
                                         validFlag = false;
                                 }
+
                                 if (isInteger(parts[2]) == false || isInteger(parts[3]) == false) {
                                         System.err.println("Invalid aircraft coordinate(only Integer): line "
                                                         + lineNumber);
