@@ -3,7 +3,6 @@ package fr._42.avaj_launcher;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.MessageFormat;
 
 import fr._42.avaj_launcher.Aircraft.AircraftFactory;
 import fr._42.avaj_launcher.Aircraft.AircraftFactory.AircraftType;
@@ -17,15 +16,17 @@ public class Simulator {
 
         private static final WeatherTower weatherTower = new WeatherTower();
         private int simulationTime;
+        private static final String resultFilename = "simulation.txt";
 
         public static void main(String[] args) {
                 try {
                         Simulator simulator = new Simulator();
                         String filename = simulator.validateInput(args);
+                        Print.setOutputFile(resultFilename);
                         simulator.registerAircraft(filename);
                         simulator.run();
                 } catch (SimulationException e) {
-                        System.err.println(e.getMessage());
+                        Print.error(e.getMessage());
                         System.exit(1);
                 }
         }
@@ -38,7 +39,7 @@ public class Simulator {
                         weatherTower.changeWeather();
                         --simulationTime;
                 }
-                System.out.println("Simulation is ended. Remained second is " + simulationTime + ".");
+                Print.out("Simulation is ended. Remained second is " + simulationTime + ".");
         }
 
         private void registerAircraft(String p_filename) throws SimulationException {
@@ -59,20 +60,19 @@ public class Simulator {
                                                 .registerTower(weatherTower);
                         }
                 } catch (IOException e) {
-                        throw new SimulationException("[Error] While registering aircrafts.");
+                        throw new SimulationException("While registering aircrafts.");
                 }
         }
 
         private String validateInput(String[] args) throws SimulationException {
                 if (args.length != 1) {
-                        throw new SimulationException("[Error] Input only one argument.");
+                        throw new SimulationException("Input only one argument.");
                 }
 
                 String filename = args[0];
                 FileValidator validator = new FileValidator(filename);
                 if (validator.isValid() == false) {
-                        String message = MessageFormat.format("[Error] {0} file is not valid", filename);
-                        throw new SimulationException(message);
+                        throw new SimulationException(filename + " file is not valid.");
                 }
 
                 return filename;
@@ -92,48 +92,47 @@ class FileValidator {
                         int lineNumber = 1;
                         String line = reader.readLine();
                         if (isValidSimulationTime(line) == false) {
-                                System.err.println("Invalid simulation time: " + line);
+                                Print.error("Invalid simulation time: " + line);
                                 validFlag = false;
                         }
                         while ((line = reader.readLine()) != null) {
                                 lineNumber++;
                                 String[] parts = line.split(" ");
                                 if (parts.length != 5) {
-                                        System.err.println("Invalid line format: line " + lineNumber);
+                                        Print.error("Invalid line format: line " + lineNumber);
                                         validFlag = false;
                                 }
 
                                 String aircraftType = parts[0];
                                 if (isValidAircraftType(aircraftType) == false) {
-                                        System.err.println("Invalid aircraft type: line " + lineNumber);
+                                        Print.error("Invalid aircraft type: line " + lineNumber);
                                         validFlag = false;
                                 }
 
                                 String name = parts[1];
                                 if (isValidName(name) == false) {
-                                        System.err.println("Invalid name: line " + lineNumber);
+                                        Print.error("Invalid name: line " + lineNumber);
                                         validFlag = false;
                                 }
 
                                 if (isInteger(parts[2]) == false || isInteger(parts[3]) == false) {
-                                        System.err.println("Invalid aircraft coordinate(only Integer): line "
+                                        Print.error("Invalid aircraft coordinate(only Integer): line "
                                                         + lineNumber);
                                         validFlag = false;
                                 } else if (isValidCoordinate(Integer.parseInt(parts[2])) == false
                                                 || isValidCoordinate(Integer.parseInt(parts[3])) == false) {
-                                        System.err.println(
-                                                        "Invalid aircraft coordinate(more than 0): line " + lineNumber);
+                                        Print.error("Invalid aircraft coordinate(more than 0): line " + lineNumber);
                                         validFlag = false;
                                 }
 
                                 if (isInteger(parts[4]) == false
                                                 || isValidHeight(Integer.parseInt(parts[4])) == false) {
-                                        System.err.println("Invalid height: line " + lineNumber);
+                                        Print.error("Invalid height: line " + lineNumber);
                                         validFlag = false;
                                 }
                         }
-                } catch (IOException e) {
-                        throw new Simulator.SimulationException("[Error] While checking file content.");
+                } catch (IOException | ArrayIndexOutOfBoundsException e) {
+                        throw new Simulator.SimulationException("While checking file content.");
                 }
                 return validFlag;
         }

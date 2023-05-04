@@ -20,7 +20,7 @@ public class Tower {
                 String format = "{0}#{1}({2}) registered to weather tower.";
                 Object[] arguments = { aircraft.getType(), aircraft.getName(), aircraft.getID() };
                 String message = MessageFormat.format(format, arguments);
-                printMessage(message);
+                Print.out(message, this);
                 observers.add(p_flyable);
         }
 
@@ -29,13 +29,10 @@ public class Tower {
                 String format = "{0}#{1}({2}) unregistered from weather tower.";
                 Object[] arguments = { aircraft.getType(), aircraft.getName(), aircraft.getID() };
                 String message = MessageFormat.format(format, arguments);
-                printMessage(message);
+                Print.out(message, this);
                 observers.remove(p_flyable);
         }
 
-        private void printMessage(String msg) {
-                System.out.println("Tower says: " + msg);
-        }
 
         protected void conditionChanged() {
                 List<Flyable> copyOfObservers = new ArrayList<>(observers);

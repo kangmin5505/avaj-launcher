@@ -1,9 +1,9 @@
 package fr._42.avaj_launcher.Aircraft;
 
 import java.util.HashMap;
-import java.text.MessageFormat;
 
 import fr._42.avaj_launcher.Coordinates;
+import fr._42.avaj_launcher.Print;
 import fr._42.avaj_launcher.Aircraft.AircraftFactory.AircraftType;
 import fr._42.avaj_launcher.WeatherProvider.WeatherType;
 
@@ -38,17 +38,6 @@ public class Aircraft extends Flyable {
                 weatherTower.unregister(this);
         }
 
-        private void printMessage(String msg) {
-                String pattern = "{0}#{1}({2}): ";
-                Object[] arguments = { type, name, id };
-                String sender = MessageFormat.format(pattern, arguments);
-                if (msg == null) {
-                        System.out.println(sender + "Set your custom messages using setMessages.");
-                } else {
-                        System.out.println(sender + msg);
-                }
-        }
-
         public void updateConditions() {
                 String weather = weatherTower.getWeather(coordinates);
                 currWeather = WeatherType.valueOf(weather);
@@ -58,9 +47,9 @@ public class Aircraft extends Flyable {
 
                 if (coordinates.getHeight() <= 0) {
                         landing();
-                        return;
+                } else {
+                        Print.out(messages.get(currWeather), this);
                 }
-                printMessage(messages.get(currWeather));
         }
 
         private void updateConditions(int[] changes) {

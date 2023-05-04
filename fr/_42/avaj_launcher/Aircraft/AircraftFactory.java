@@ -4,7 +4,7 @@ import java.util.HashMap;
 import fr._42.avaj_launcher.Coordinates;
 
 public class AircraftFactory {
-        public static enum AircraftType {
+        public enum AircraftType {
                 JETPLANE("JetPlane"),
                 HELICOPTER("Helicopter"),
                 BALOON("Baloon");

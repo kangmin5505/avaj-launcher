@@ -1,10 +1,10 @@
-25
+-123
 Baloon1 B1 2 3 20
 Baloon B2 1 8 66
 JetPlane1 J1 23 44 32
 Helicopter H1 654d 33 20
-Helicopter1 H2 22 33 44
+Helicopter1 H2 22 33 44d
 Helicopter H3 98 68 99
 Baloon1 B3 102 22 34
 JetPlane J2 11 99d 76
-Helicopter1 H4 223 -1 -1
+Helicopter1 H4 223 -1

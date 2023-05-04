@@ -1,3 +1,4 @@
 *.class
 source*
 result*
+simulation.txt
